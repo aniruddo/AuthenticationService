@@ -57,4 +57,16 @@ public class AuthController {
             );
         }
     }
+
+    @PostMapping("/validateToken")
+    public ResponseEntity<ValidateTokenResponseDto> validateToken(@RequestBody ValidateTokenRequestDto request) {
+        ValidateTokenResponseDto response = new ValidateTokenResponseDto();
+        try {
+            response = authService.validateToken(request.getUserId(), request.getToken());
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            response.setRequestStatus(RequestStatus.FAILURE);
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+    }
 }
